@@ -6,8 +6,8 @@ const MetricChart = dynamic(() => import('./MetricChart'), { ssr: false });
 
 export default function ChartsGrid() {
   return (
-    <div className="bg-white shadow-sm rounded-lg p-4">
-      <h3 className="text-sm font-medium text-slate-600 mb-4">Tren Per Metrik</h3>
+    <div className="bg-slate-900/40 border border-white/10 shadow-lg rounded-xl p-5">
+      <h3 className="text-sm font-medium text-slate-300 mb-4">Tren Per Metrik</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="col-span-1">
           {/* CPU: biru, 0-100% */}

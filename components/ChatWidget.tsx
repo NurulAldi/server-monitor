@@ -112,31 +112,31 @@ export default function ChatWidget() {
     <div className="fixed bottom-6 right-6 z-50">
       {/* Popup */}
       <div className={`${open ? 'block' : 'hidden'} mb-3`}>
-        <div className="w-80 md:w-96 bg-white shadow-xl rounded-lg overflow-hidden pointer-events-auto">
-          <div className="flex items-center justify-between px-4 py-2 border-b">
-            <div className="text-sm font-medium">AI Chat</div>
+        <div className="w-80 md:w-96 bg-slate-900 border border-white/10 shadow-2xl rounded-xl overflow-hidden pointer-events-auto">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <div className="text-sm font-medium text-white">AI Chat</div>
             <div>
-              <button className="text-xs text-slate-500" onClick={() => setOpen(false)}>
+              <button className="text-xs text-slate-400 hover:text-slate-300" onClick={() => setOpen(false)}>
                 Close
               </button>
             </div>
           </div>
 
-          <div className="p-3 h-56 overflow-y-auto" ref={listRef}>
+          <div className="p-3 h-56 overflow-y-auto bg-slate-950/50" ref={listRef}>
             {messages.map((m) => (
               <ChatBubble key={m.id} from={m.from} text={m.text} time={m.time} />
             ))}
 
             {aiTyping ? (
               <div className="mb-2">
-                <div className="max-w-[60%] px-3 py-2 rounded-lg text-sm bg-slate-100 text-slate-800">
+                <div className="max-w-[60%] px-3 py-2 rounded-lg text-sm bg-slate-800 text-slate-300 border border-white/10">
                   <div className="animate-pulse text-slate-400">AI is thinking...</div>
                 </div>
               </div>
             ) : null}
           </div>
 
-          <div className="px-3 py-2 border-t">
+          <div className="px-3 py-2 border-t border-white/10 bg-slate-900">
             <div className="flex gap-2">
               <input
                 value={input}
@@ -144,10 +144,10 @@ export default function ChatWidget() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') send();
                 }}
-                className="flex-1 px-3 py-2 border rounded-md text-sm"
+                className="flex-1 px-3 py-2 border border-white/10 bg-slate-800 text-white placeholder:text-slate-500 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Tanya tentang server..."
               />
-              <button className="px-3 py-2 bg-sky-600 text-white rounded-md text-sm" onClick={send}>
+              <button className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm transition-colors" onClick={send}>
                 Send
               </button>
             </div>
@@ -159,7 +159,7 @@ export default function ChatWidget() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Open chat"
-        className="w-12 h-12 rounded-full bg-sky-600 text-white shadow-lg flex items-center justify-center"
+        className="w-12 h-12 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg flex items-center justify-center transition-colors"
       >
         <ICON className="w-6 h-6" />
       </button>

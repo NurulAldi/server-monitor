@@ -12,7 +12,9 @@ export default function ChatBubble({ from, text, time }: Props) {
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-2`}>
       <div
-        className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${isUser ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-800'}`}
+        className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+          isUser ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-200 border border-white/10'
+        }`}
       >
         <div>{text}</div>
         {time ? <div className="text-[10px] text-slate-400 mt-1 text-right">{time}</div> : null}

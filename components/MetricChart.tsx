@@ -71,16 +71,29 @@ function MetricChartComponent({ title, metric, color, yDomain, unit = '', window
   const chartData = React.useMemo(() => points.map((p) => ({ waktu: p.label, value: p.value })), [points]);
 
   return (
-    <div className="bg-white shadow-sm rounded-lg p-4 h-full">
-      <div className="text-xs font-semibold text-slate-600 mb-2">{title}</div>
+    <div className="bg-slate-800/30 border border-white/5 shadow-md rounded-xl p-4 h-full">
+      <div className="text-xs font-semibold text-white mb-2">{title}</div>
 
       {/* Clipping container: prevents abrupt disappearance of points on the left */}
       <div className="w-full h-[260px] overflow-hidden">
         <ResponsiveContainer>
           <LineChart data={chartData} className="transition-transform duration-500 ease-linear">
-            <XAxis dataKey="waktu" tick={{ fontSize: 11 }} />
-            <YAxis domain={yDomain} tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(value: any) => `${value}${unit}`} />
+            <XAxis dataKey="waktu" tick={{ fontSize: 11, fill: '#94a3b8' }} />
+            <YAxis domain={yDomain} tick={{ fontSize: 11, fill: '#94a3b8' }} />
+            <Tooltip
+              formatter={(value: any) => `${value}${unit}`}
+              contentStyle={{
+                backgroundColor: 'rgba(15,23,42,0.95)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: 8,
+                padding: 8,
+                color: '#fff',
+                boxShadow: '0 6px 20px rgba(2,6,23,0.6)'
+              }}
+              labelStyle={{ color: '#94a3b8', fontSize: 12 }}
+              itemStyle={{ color: '#fff', fontWeight: 600 }}
+              cursor={{ stroke: '#334155', strokeWidth: 1 }}
+            />
             {/* Disable Recharts default animation which redraws the line; we use sliding-window update instead */}
             <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={false} isAnimationActive={false} />
           </LineChart>

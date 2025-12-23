@@ -19,29 +19,29 @@ export default function StatCard({ title, value, percent, color = "indigo" }: Pr
   const mainDisplay = percent !== undefined ? `${percent.toFixed(1)}%` : value;
 
   return (
-    <div className="bg-white shadow-sm rounded-lg p-3 h-20 flex flex-col justify-between">
+    <div className="bg-slate-900/40 border border-white/10 shadow-lg rounded-xl p-5 h-32 flex flex-col justify-between">
       <div className="flex items-start gap-3">
-        <div className="p-1 rounded-md bg-slate-100">
-          {title === "CPU" && <Cpu className="w-4 h-4 text-slate-700" />}
-          {title === "RAM" && <ArrowUp className="w-4 h-4 text-slate-700" />}
-          {title === "Disk" && <HardDrive className="w-4 h-4 text-slate-700" />}
-          {title === "Temp" && <Thermometer className="w-4 h-4 text-slate-700" />}
+        <div className="p-2 rounded-lg bg-slate-800/50 border border-white/5">
+          {title === "CPU" && <Cpu className="w-5 h-5 text-indigo-400" />}
+          {title === "RAM" && <ArrowUp className="w-5 h-5 text-indigo-400" />}
+          {title === "Disk" && <HardDrive className="w-5 h-5 text-indigo-400" />}
+          {title === "Temp" && <Thermometer className="w-5 h-5 text-indigo-400" />}
         </div>
-        <h3 className="text-xs font-medium text-slate-500 mt-0.5">{title}</h3>
+        <h3 className="text-sm font-medium text-slate-400 mt-0.5">{title}</h3>
       </div>
 
       <div className="flex items-center justify-between">
         <div className="mt-1">
-          <div className="text-xl font-semibold text-slate-900">{mainDisplay}</div>
+          <div className="text-3xl font-bold text-white">{mainDisplay}</div>
         </div>
       </div>
 
       {/* Progress bar: only when percent is provided; color changes by thresholds */}
       {percent !== undefined && (
         <div className="w-full mt-2">
-          <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
             <div
-              className={`${progressColorClass(percent)} h-1 rounded-full transition-all duration-500 ease-out`}
+              className={`${progressColorClass(percent)} h-2 rounded-full transition-all duration-500 ease-out`}
               style={{ width: `${Math.min(100, Math.max(0, percent))}%`, willChange: 'width' }}
             />
           </div>

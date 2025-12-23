@@ -16,7 +16,11 @@ export default function LogoutButton() {
     }
   }
   return (
-    <button onClick={logout} disabled={loading} className="btn-ghost">
+    <button 
+      onClick={logout} 
+      disabled={loading} 
+      className="px-4 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 border border-white/10 text-white text-sm font-medium transition-colors disabled:opacity-50"
+    >
       {loading ? "Keluar..." : "Keluar"}
     </button>
   );

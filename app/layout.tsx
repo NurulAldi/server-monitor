@@ -16,21 +16,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const user = sessionToken ? await ambilUserDariToken(sessionToken) : null;
 
   return (
-    <html lang="id">
+    <html lang="id" className="font-sans">
       <body>
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-slate-950 text-slate-100">
           <header className="flex items-center justify-between max-w-7xl mx-auto p-6">
-            <div className="text-lg font-semibold">Monitoring Server</div>
+            <div className="text-lg font-semibold text-white">Monitoring Server</div>
+            {/* show logout only when user is authenticated */}
             <nav className="flex items-center gap-4">
-              {user ? (
-                // When logged in, show only Logout
-                <LogoutButton />
-              ) : (
-                <>
-                  <a href="/login" className="hover:underline">Masuk</a>
-                  <a href="/register" className="hover:underline">Daftar</a>
-                </>
-              )}
+              {user ? <LogoutButton /> : null}
             </nav>
           </header>
           <main className="max-w-7xl mx-auto p-6">{children}</main>

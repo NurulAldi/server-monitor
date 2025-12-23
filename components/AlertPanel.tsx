@@ -70,17 +70,17 @@ export default function AlertPanel({ alerts }: Props) {
   };
 
   return (
-    <div className="bg-white shadow-sm rounded-lg p-3">
+    <div className="bg-slate-900/40 border border-white/10 shadow-lg rounded-xl p-4">
       <div className="flex items-center gap-3">
-        <div className="p-1 rounded-md bg-amber-100 text-amber-700">
-          <Bell className="w-4 h-4" />
+        <div className="p-1.5 rounded-lg bg-amber-500/20 border border-amber-500/30">
+          <Bell className="w-4 h-4 text-amber-400" />
         </div>
-        <h3 className="text-sm font-medium text-slate-600">Recent Alerts</h3>
+        <h3 className="text-sm font-medium text-slate-300">Recent Alerts</h3>
       </div>
 
-      <div className="mt-3 h-56 overflow-y-auto divide-y divide-slate-100 pr-2">
+      <div className="mt-3 h-56 overflow-y-auto divide-y divide-white/5 pr-2 dark-scrollbar">
         {items.length === 0 && (
-          <div className="text-sm text-slate-500 py-4">No alerts</div>
+          <div className="text-sm text-slate-400 py-4">No alerts</div>
         )}
 
         {items.map((it, idx) => (
@@ -90,12 +90,12 @@ export default function AlertPanel({ alerts }: Props) {
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-slate-800 truncate">
-                {it.label}: <span className="font-normal text-slate-600">{it.short}</span>
+              <div className="font-medium text-white truncate">
+                {it.label}: <span className="font-normal text-slate-300">{it.short}</span>
               </div>
             </div>
 
-            <div className="text-xs text-slate-400">{formatTime(it.waktu)}</div>
+            <div className="text-xs text-slate-500">{formatTime(it.waktu)}</div>
           </div>
         ))}
       </div>
