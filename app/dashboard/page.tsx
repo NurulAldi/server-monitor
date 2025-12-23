@@ -28,10 +28,10 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-8 grid grid-cols-4 gap-4">
-          <StatCard title="CPU" value={terbaru ? `${terbaru.cpu.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.cpu : undefined} color="indigo" />
-          <StatCard title="RAM" value={terbaru ? `${terbaru.mem.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.mem : undefined} color="teal" />
-          <StatCard title="Disk" value={terbaru ? `${terbaru.disk.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.disk : undefined} color="slate" />
-          <StatCard title="Temp" value={terbaru ? `${terbaru.suhu.toFixed(1)}°C` : '-'} percent={terbaru ? Math.min(100, terbaru.suhu) : undefined} color="rose" />
+          <StatCard title="CPU" value={terbaru ? `${terbaru.cpu.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.cpu : undefined} />
+          <StatCard title="RAM" value={terbaru ? `${terbaru.mem.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.mem : undefined} />
+          <StatCard title="Disk" value={terbaru ? `${terbaru.disk.toFixed(1)}%` : '-'} percent={terbaru ? terbaru.disk : undefined} />
+          <StatCard title="Temp" value={terbaru ? `${terbaru.suhu.toFixed(1)}°C` : '-'} percent={terbaru ? Math.min(100, terbaru.suhu) : undefined} />
         </div>
 
         <div className="col-span-4">
