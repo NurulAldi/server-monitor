@@ -48,7 +48,7 @@ async function main() {
 
   const res = await transporter.sendMail({
     from: process.env.EMAIL_FROM,
-    to: 'aldiprm48@gmail.com', // change to test recipient if you want
+    to: process.env.SMTP_USER,
     subject: 'Test Alert - Monitoring Server',
     text: 'This is a test alert generated from CLI.',
   });
