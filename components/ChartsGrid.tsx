@@ -1,0 +1,34 @@
+"use client";
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const MetricChart = dynamic(() => import('./MetricChart'), { ssr: false });
+
+export default function ChartsGrid() {
+  return (
+    <div className="bg-white shadow-sm rounded-lg p-4">
+      <h3 className="text-sm font-medium text-slate-600 mb-4">Tren Per Metrik</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="col-span-1">
+          {/* CPU: biru, 0-100% */}
+          <MetricChart title="CPU Usage Trend" metric="cpu" color="#4f46e5" yDomain={[0, 100]} unit="%" windowSize={30} fetchLimit={35} />
+        </div>
+
+        <div className="col-span-1">
+          {/* Memory: hijau, 0-100% */}
+          <MetricChart title="Memory Usage Trend" metric="mem" color="#0f766e" yDomain={[0, 100]} unit="%" windowSize={30} fetchLimit={35} />
+        </div>
+
+        <div className="col-span-1">
+          {/* Disk: abu-abu, 0-100% */}
+          <MetricChart title="Disk Usage Trend" metric="disk" color="#64748b" yDomain={[0, 100]} unit="%" windowSize={30} fetchLimit={35} />
+        </div>
+
+        <div className="col-span-1">
+          {/* Temperature: merah, 0-120°C */}
+          <MetricChart title="Temperature Trend" metric="suhu" color="#ef4444" yDomain={[0, 120]} unit="°C" windowSize={30} fetchLimit={35} />
+        </div>
+      </div>
+    </div>
+  );
+}

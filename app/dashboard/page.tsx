@@ -6,7 +6,7 @@ import AlertPanel from '../../components/AlertPanel';
 import dynamic from 'next/dynamic';
 import { BacaanServer } from '../../services/pemantauServer';
 
-const ChartsClient = dynamic(() => import('../../components/ChartsClient'), { ssr: false });
+const ChartsGrid = dynamic(() => import('../../components/ChartsGrid'), { ssr: false });
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -17,11 +17,7 @@ export default function DashboardPage() {
   // alerts tiap 2 detik
   const { data: alertsData } = useSWR('/api/alerts?limit=20', fetcher, { refreshInterval: 2000 });
 
-  // history untuk charts tiap 5 detik
-  const { data: historyData } = useSWR('/api/server-status/history?limit=60', fetcher, { refreshInterval: 5000 });
-
   const terbaru: BacaanServer | null = serverData?.data?.terbaru ?? null;
-  const riwayat: BacaanServer[] = historyData?.data ?? serverData?.data?.riwayat ?? [];
   const alerts = alertsData?.data ?? [];
 
   return (
@@ -40,7 +36,7 @@ export default function DashboardPage() {
       </div>
 
       <div>
-        <ChartsClient data={riwayat} />
+        <ChartsGrid />
       </div>
     </div>
   );

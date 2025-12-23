@@ -7,11 +7,29 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const limitParam = url.searchParams.get("limit");
     const limit = limitParam ? Math.max(1, parseInt(limitParam, 10)) : 120;
+    const metric = url.searchParams.get("metric"); // optional: cpu|mem|disk|suhu
 
     const koleksi = await dapatkanKoleksi("history");
     const docs = await koleksi.find().sort({ waktu: -1 }).limit(limit).toArray();
 
-    // Map dokumen ke format BacaanServer
+    // Jika metric diberikan, kembalikan array sederhana { waktu, value }
+    if (metric) {
+      const allowed = new Set(["cpu", "mem", "disk", "suhu"]);
+      if (!allowed.has(metric)) {
+        return NextResponse.json({ sukses: false, pesan: "Metric tidak valid" }, { status: 400 });
+      }
+
+      const hasilMetric = docs
+        .map((d: any) => ({
+          waktu: d.waktu instanceof Date ? d.waktu.getTime() : new Date(d.waktu).getTime(),
+          value: metric === "cpu" ? d.cpu : metric === "mem" ? d.mem : metric === "disk" ? d.disk : d.suhu,
+        }))
+        .reverse();
+
+      return NextResponse.json({ sukses: true, data: hasilMetric }, { status: 200 });
+    }
+
+    // Map dokumen ke format BacaanServer (backwards compatible)
     const hasil = docs
       .map((d: any) => ({
         waktu: d.waktu instanceof Date ? d.waktu.getTime() : new Date(d.waktu).getTime(),
