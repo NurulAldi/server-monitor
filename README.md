@@ -1,7 +1,19 @@
 # Sistem Monitoring Server (backend)
 
 Deskripsi singkat: layanan backend berbasis Next.js (App Router) yang mensimulasikan data server setiap 2 detik dan menyediakan endpoint untuk mengambil data serta menyimpan email pengguna ke MongoDB.
+## Autentikasi & Notifikasi (baru)
 
+- Registrasi dan login sederhana ditambahkan (`/register`, `/login`). Form meminta **Email** dan **Password**.
+- Menggunakan koleksi `users` di MongoDB dan sesi tersimpan di koleksi `sessions`.
+- Middleware Next.js melindungi `/dashboard` agar tidak dapat diakses tanpa cookie sesi.
+- Ketika terjadi alert (mis. CPU tinggi), server akan mengirim email otomatis ke *email user yang sedang login* menggunakan konfigurasi SMTP.
+
+Environment variables (tambahkan ke `.env.local`):
+
+- SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, EMAIL_FROM
+- SESSION_MAX_AGE (detik, default 604800 = 7 hari)
+
+Jalankan: `npm install` (telah menambahkan `nodemailer` dependency).
 ## Fitur
 
 - Simulasi bacaan server (CPU, Memory, Disk, Temperature) setiap 2 detik.

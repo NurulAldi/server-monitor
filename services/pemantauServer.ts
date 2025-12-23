@@ -1,4 +1,6 @@
 import { dapatkanKoleksi } from "../lib/mongodb";
+import { ambilEmailUserDariSesiAktif } from "../lib/auth";
+import { kirimEmail } from "../lib/email";
 
 // Tipe data bacaan server (disesuaikan agar mudah dikonsumsi Chart.js/Recharts)
 export type BacaanServer = {
@@ -17,6 +19,10 @@ class PemantauServer {
   private pembuatInterval: NodeJS.Timeout | null = null;
   private alertTerakhir: BacaanServer | null = null;
   private terakhirPembersihan = 0; // timestamp ms terakhir pembersihan manual
+
+  // Email rate limiting: track last email sent time (ms) and minimum interval
+  private terakhirEmailAt = 0; // timestamp ms terakhir email terkirim
+  private emailMinInterval = Number(process.env.EMAIL_MIN_INTERVAL_MS ?? 60000); // default 60s
 
   constructor() {
     // Debug: konfirmasi inisialisasi
@@ -129,7 +135,8 @@ class PemantauServer {
 
     // Jika ada alert, simpan juga ke koleksi 'alerts' dan simpan alertTerakhir
     if (bacaan.alert) {
-      this.alertTerakhir = bacaan;
+      const isNewAlert = !this.alertTerakhir || this.alertTerakhir.waktu !== bacaan.waktu;
+      // Simpan ke DB
       try {
         const koleksi = await dapatkanKoleksi("alerts");
         await koleksi.insertOne({
@@ -141,6 +148,40 @@ class PemantauServer {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error("[PemantauServer] Gagal menyimpan alert ke DB:", err);
+      }
+
+      // Hanya kirim email sekali per alert baru, dan batasi frekuensi (rate limit)
+      if (isNewAlert) {
+        this.alertTerakhir = bacaan;
+        try {
+          const now = Date.now();
+          const sinceLast = now - this.terakhirEmailAt;
+          if (sinceLast < this.emailMinInterval) {
+            // eslint-disable-next-line no-console
+            console.info(
+              `[PemantauServer] Lewati pengiriman email (terakhir ${sinceLast}ms lalu < ${this.emailMinInterval}ms)`
+            );
+          } else {
+            const emails = await ambilEmailUserDariSesiAktif();
+            if (emails.length) {
+              // perbarui timestamp hanya jika kita benar-benar akan mengirim
+              this.terakhirEmailAt = now;
+              // kirim email tanpa menahan loop (fire & forget)
+              void Promise.all(
+                emails.map((to) =>
+                  kirimEmail(
+                    to,
+                    `ALERT: ${bacaan.pesanAlert}`,
+                    `Terdeteksi alert pada server:\n${bacaan.pesanAlert}\nWaktu: ${new Date(bacaan.waktu).toLocaleString()}`
+                  )
+                )
+              );
+            }
+          }
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error("[PemantauServer] Gagal mengirim notifikasi email:", err);
+        }
       }
     }
 
